@@ -1,0 +1,36 @@
+@startuml
+Node Frontend <<Svelte>> {
+   [User client]
+   [Admin panel]
+}
+
+node Backend <<Go>> {
+   package WebServer {
+       frame API {
+
+      }
+   }
+   package DomainModel {
+      [Game logic]
+      [Domain Entities]
+   }
+   [DataAccessLayer]
+}
+
+database DataStorage <<MongoDB|Postgres>> {
+   [Users]
+   [Crosswords]
+   [Sessions]
+   [...]
+}
+
+HTTP - WebServer
+Frontend --> HTTP
+
+WebServer --> [Game logic]
+[Domain Entities] --> DataAccessLayer
+[Game logic] --> [Domain Entities]
+
+ODBC - DataStorage
+[DataAccessLayer] -> ODBC
+@enduml
