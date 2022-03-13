@@ -1,0 +1,71 @@
+@startuml
+object PlayingField{
+    letterArrays CrossField[]
+    field Cell [][]
+    ---
+    GetHints()
+    ToCharMatrix()
+}
+
+object Word {
+    term
+    hint
+    length
+    isGuessed
+    ----
+    
+}
+
+object LetterArray <<Название временное>>{
+    word Word
+    align
+    cellArray LetterCell[]
+    ----
+    IsCrossing(LetterArray)
+    ToCharArray()
+    
+}
+
+Interface Cell{
+   ---
+   GetContent()
+   GetX()
+   GetY()
+}
+
+object Position  {
+   x
+   y
+   ---
+   GetX()
+   GetY()
+}
+
+object LetterCell {
+   coord Position
+   isClear
+   isRight
+   ---
+   GetContent()
+}
+
+object BlockCell {
+   coord Position
+   content = #
+   ---
+   GetContent()
+}
+
+
+Word --* LetterArray 
+LetterCell --* LetterArray 
+LetterArray --o PlayingField
+
+
+LetterCell *-- Position
+BlockCell *-- Position
+Cell <|.. LetterCell
+Cell <|.. BlockCell
+
+Cell --o PlayingField
+@enduml
