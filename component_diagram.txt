@@ -9,6 +9,8 @@ node Backend <<Go>> {
        frame API {
 
       }
+      [SessionHandler]
+
    }
    package DomainModel {
       [Game logic]
