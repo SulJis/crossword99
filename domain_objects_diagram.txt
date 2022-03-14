@@ -43,10 +43,12 @@ object Position  {
 
 object LetterCell {
    coord Position
-   isClear
-   isRight
+   content
+   rightLetter
    ---
    GetContent()
+   IsCorrect()
+   IsClear()
 }
 
 object BlockCell {
