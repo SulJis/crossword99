@@ -1,28 +1,38 @@
 @startuml
 object PlayingField{
-    letterArrays CrossField[]
-    field Cell [][]
+    Words []LetterArray
+    Dimension [2]int
+    Field [][]Cell
     ---
-    GetHints()
+    GetField()
+    GetStringField()
+    WriteLetter(dot Position)
+    PrintContentField()
+    PrintRightLetterField()
     ToCharMatrix()
 }
 
 object Word {
-    term
-    hint
-    length
-    isGuessed
+    Term
+    Hint
+    Length
+    IsGuessed
     ----
     
 }
 
 object LetterArray <<Название временное>>{
-    word Word
-    align
+    Word
+    MatrixRange
+    align Align
     cellArray LetterCell[]
+    startPoint Position
     ----
     IsCrossing(LetterArray)
-    ToCharArray()
+    GetCellArray()
+    GetCell(dot Position) LetterCell
+    WriteLetter(dot Position, s string)
+    Clear(dot Position)
     
 }
 
@@ -34,30 +44,52 @@ Interface Cell{
 }
 
 object Position  {
-   x
-   y
+   X
+   Y
    ---
    GetX()
    GetY()
+   Next(align) Position
+   DistanceTo(dot, align) int
 }
 
 object LetterCell {
-   coord Position
+   Position
    content
    rightLetter
    ---
    GetContent()
+   GetRightLetter()
    IsCorrect()
    IsClear()
+   Clear()
 }
 
 object BlockCell {
-   coord Position
+   Position
    content = #
+   rightLetter = #
    ---
    GetContent()
+   GetRightLetter()
 }
 
+object Range {
+   min int
+   max int
+---
+   InRange(dot) bool
+   GetBoundaries() int int
+}
+
+object MatrixRange {
+   XRange Range
+   YRange Range
+---
+   SetXRange(x1, x2)
+   SetYRange(y1, y2)
+   InRange(dot) bool
+}
 
 Word --* LetterArray 
 LetterCell --* LetterArray 
@@ -66,8 +98,15 @@ LetterArray --o PlayingField
 
 LetterCell *-- Position
 BlockCell *-- Position
+
+MatrixRange *-- Range
+MatrixRange *-- Range
+
+LetterArray *-- MatrixRange
+
 Cell <|.. LetterCell
 Cell <|.. BlockCell
 
 Cell --o PlayingField
+
 @enduml
